@@ -34,7 +34,7 @@ body {
 /* Customize container */
 @media (min-width: 768px) {
   .container {
-    /*max-width: 730px;*/
+    max-width: 730px;
   }
 }
 .container-narrow > hr {
@@ -71,6 +71,9 @@ body {
   /* Space out the masthead */
   .header {
     margin-bottom: 30px;
+  }
+  .footer {
+    margin-top: 30px;
   }
   /* Remove the bottom border on the jumbotron for visual effect */
   .jumbotron {

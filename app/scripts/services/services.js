@@ -54,21 +54,21 @@ angular.module('myLoginApp')
 	 //      });
 	};
 
+	authService.logout = function () {
+		Session.destroy();
+	};
+
 	authService.isAuthenticated = function () {
 		return !!Session.userId;
 	};
 
 	authService.isAuthorized = function (authorizedRoles) {
 		// only verify if user has rights to see the page if the page has any restriction
-		if (authorizedRoles !== null && typeof authorizedRoles !== 'undefined') {
-			if (!angular.isArray(authorizedRoles)) {
-			  authorizedRoles = [authorizedRoles];
-			}
-			return (authService.isAuthenticated() &&
-			  authorizedRoles.indexOf(Session.userRole) !== -1);
-		} else {
-			return true;
+		if (!angular.isArray(authorizedRoles)) {
+		  authorizedRoles = [authorizedRoles];
 		}
+		return (authService.isAuthenticated() &&
+		  authorizedRoles.indexOf(Session.userRole) !== -1);
 	};
 
 	return authService;

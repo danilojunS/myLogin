@@ -32,37 +32,76 @@ angular
     guest: 'guest'
   })
   .config(function ($routeProvider, USER_ROLES) {
+
     $routeProvider
       .when('/', {
-        templateUrl: 'views/login.html',
-        controller: 'LoginCtrl'
+        redirectTo: '/main'
       })
       .when('/main', {
         templateUrl: 'views/main.html',
         controller: 'MainCtrl',
         authorizedRoles: [USER_ROLES.admin]
       })
+      .when('/login', {
+        templateUrl: 'views/login.html',
+        controller: 'LoginCtrl'
+      })
+      .when('/contact', {
+        templateUrl: 'views/contact.html',
+        controller: 'ContactCtrl',
+        authorizedRoles: [USER_ROLES.editor]
+      })
       .when('/about', {
         templateUrl: 'views/about.html',
         controller: 'AboutCtrl'
       })
+      .when('/notAuthorized', {
+        templateUrl: 'views/notauthorized.html',
+        controller: 'NotauthorizedCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });
-  }).run(function ($rootScope, AUTH_EVENTS, AuthService) {
+
+  }).run(function ($route, $rootScope, $location, AUTH_EVENTS, AuthService) {
+
+    var pathAfterLogin = '/';  // path to where redirect the user after the login
+
     $rootScope.$on('$routeChangeStart', function (event, next) {
+      
       var authorizedRoles = next.authorizedRoles;
-      if (!AuthService.isAuthorized(authorizedRoles)) {
-        event.preventDefault();
-        if (AuthService.isAuthenticated()) {
-          // user is not allowed
-          $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
-          console.log('user is not allowed');
-        } else {
-          // user is not logged in
-          $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
-          console.log('user is not logged in');
+
+      if (authorizedRoles) {
+        if (!AuthService.isAuthorized(authorizedRoles)) {
+          
+          event.preventDefault();
+
+          if (AuthService.isAuthenticated()) {
+            // user is not allowed
+            $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
+            $location.path('/notAuthorized');                       // redirect user to error page
+
+            console.log('user is not allowed');
+          } else {
+            // user is not logged in
+            $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
+            pathAfterLogin = next.originalPath;                     // save path that the user wants to access after the login
+            $location.path('/login');                               // redirect user to login page
+
+            console.log('user is not logged in');
+          }
         }
       }
+
     });
+
+    $rootScope.$on(AUTH_EVENTS.loginSuccess, function () {
+      $location.path(pathAfterLogin);
+      pathAfterLogin = '/';
+    });
+
+    $rootScope.$on(AUTH_EVENTS.logoutSuccess, function () {
+      $location.path('/');
+    });
+
   });

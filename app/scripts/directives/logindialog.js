@@ -7,7 +7,7 @@
  * # loginDialog
  */
 angular.module('myLoginApp')
-  .directive('loginDialog', function ($route, AUTH_EVENTS) {
+  .directive('loginDialog', function (AUTH_EVENTS) {
 	  return {
 	    restrict: 'A',
 	    template: '<div ng-if="visible" ng-include="\'views/login.html\'">',
@@ -27,11 +27,8 @@ angular.module('myLoginApp')
 	      scope.$on(AUTH_EVENTS.sessionTimeout, showDialog);
 
 	      scope.$on(AUTH_EVENTS.notNecessary, hideDialog);
+	      scope.$on(AUTH_EVENTS.loginSuccess, hideDialog);
 
-	      scope.$on(AUTH_EVENTS.loginSuccess, function () {
-	      	hideDialog();
-	      	$route.reload();
-	      });
 	    }
 	  };
   });

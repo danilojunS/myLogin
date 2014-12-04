@@ -17,15 +17,13 @@ angular.module('myLoginApp')
 	$scope.login = function (credentials) {
 
 		AuthService.login(credentials).then(function (user) {
-		  console.log('success');
+		  console.log('login success');
 		  
 		  $scope.setCurrentUser(user);
 		  $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
-		  
-		  $location.url('/main');
 
 		}, function () {
-		  console.log('error');
+		  console.log('login error');
 
 		  $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
 

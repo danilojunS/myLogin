@@ -24,18 +24,31 @@
     <!-- Add your site or application content here -->
     <div class="container">
       <div class="header">
-        <!-- <ul class="nav nav-pills pull-right">
-          <li class="active"><a ng-href="#">Home</a></li>
+
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <!-- <a class="navbar-brand" href="#!/">AngularJSAuth</a> -->
+            <h3 class="text-muted">myLogin</h3>
+          </div>
+          <ul class="nav navbar-nav navbar-right" data-ng-hide="currentUser">
+            <li><a href="#/login">Login</a></li>
+            <li><a href="#/signup">Signup</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right" data-ng-show="currentUser">
+            <li><a href="#/">{{ currentUser.name }}, {{currentUser.role}}</a></li>
+            <li><a href="#/" ng-click="logout()">Signout</a></li>
+          </ul>
+        </div>
+        
+        <ul class="nav nav-pills">
+          <li class="active"><a ng-href="#/main">Main</a></li>
+          <li><a ng-href="#/contact">Contact</a></li>
           <li><a ng-href="#/about">About</a></li>
-          <li><a ng-href="#">Contact</a></li>
-        </ul> -->
-        <ul class="nav nav-pills pull-right">
-          <li ng-if="currentUser">{{ currentUser.name }}</li>
-          <!-- <li ng-if="isAuthorized(userRoles.admin)">You're admin.</li> -->
-          <li ng-if="currentUser">, {{currentUser.role}}</li>
         </ul>
-        <h3 class="text-muted">myLogin</h3>
+          
       </div>
+
+      <!-- <div login-dialog></div> -->
 
       <div ng-view=""></div>
 
@@ -82,8 +95,11 @@
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/about.js"></script>
         <script src="scripts/controllers/login.js"></script>
-        <script src="scripts/services/services.js"></script>
         <script src="scripts/controllers/app.js"></script>
+        <script src="scripts/services/services.js"></script>
+        <script src="scripts/directives/logindialog.js"></script>
+        <script src="scripts/controllers/contact.js"></script>
+        <script src="scripts/controllers/notauthorized.js"></script>
         <!-- endbuild -->
-</body>
+  </body>
 </html>
