@@ -63,7 +63,7 @@ angular
         redirectTo: '/'
       });
 
-  }).run(function ($route, $rootScope, $location, AUTH_EVENTS, AuthService) {
+  }).run(function ($route, $rootScope, $location, AUTH_EVENTS, authenticationService) {
 
     var pathAfterLogin = '/';  // path to where redirect the user after the login
 
@@ -72,16 +72,17 @@ angular
       var authorizedRoles = next.authorizedRoles;
 
       if (authorizedRoles) {
-        if (!AuthService.isAuthorized(authorizedRoles)) {
+        if (!authenticationService.isAuthorized(authorizedRoles)) {
           
           event.preventDefault();
 
-          if (AuthService.isAuthenticated()) {
+          if (authenticationService.isAuthenticated()) {
             // user is not allowed
             $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
             $location.path('/notAuthorized');                       // redirect user to error page
 
             console.log('user is not allowed');
+
           } else {
             // user is not logged in
             $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
@@ -95,11 +96,13 @@ angular
 
     });
 
+    // redirect to page after login
     $rootScope.$on(AUTH_EVENTS.loginSuccess, function () {
       $location.path(pathAfterLogin);
       pathAfterLogin = '/';
     });
 
+    // redirect to main page after logout
     $rootScope.$on(AUTH_EVENTS.logoutSuccess, function () {
       $location.path('/');
     });

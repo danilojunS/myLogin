@@ -8,7 +8,7 @@
  * Controller of the myLoginApp
  */
 angular.module('myLoginApp')
-  .controller('LoginCtrl', function ($scope, $rootScope, $location, AUTH_EVENTS, AuthService) {
+  .controller('LoginCtrl', function ($scope, $rootScope, AUTH_EVENTS, authenticationService, userService) {
 	$scope.credentials = {
 		email: '',
 		password: ''
@@ -16,10 +16,10 @@ angular.module('myLoginApp')
 
 	$scope.login = function (credentials) {
 
-		AuthService.login(credentials).then(function (user) {
+		authenticationService.login(credentials).then(function (user) {
 		  console.log('login success');
 		  
-		  $scope.setCurrentUser(user);
+		  userService.setUser(user);
 		  $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
 
 		}, function () {

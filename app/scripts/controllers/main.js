@@ -8,10 +8,12 @@
  * Controller of the myLoginApp
  */
 angular.module('myLoginApp')
-  .controller('MainCtrl', function ($scope) {
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+  .controller('MainCtrl', function ($scope, userService) {
+    $scope.user = userService.getUser();
+
+    $scope.$watch(function() {
+		  	return userService.getUser();
+		  }, function(newUser) {
+	      $scope.user = newUser;
+	  });
   });
