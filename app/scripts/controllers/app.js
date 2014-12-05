@@ -8,18 +8,18 @@
  * Controller of the myLoginApp
  */
 angular.module('myLoginApp')
-	.controller('AppCtrl', function ($scope, $route, $location, USER_ROLES, AUTH_EVENTS, AuthService) {
+	.controller('AppCtrl', function ($scope, USER_ROLES, AUTH_EVENTS, authenticationService, userService) {
 
-		$scope.currentUser = null;
+		$scope.currentUser = userService.getUser();
 		$scope.userRoles = USER_ROLES;
-		$scope.isAuthorized = AuthService.isAuthorized;
+		$scope.isAuthorized = authenticationService.isAuthorized;
 
 		$scope.setCurrentUser = function (user) {
 			$scope.currentUser = user;
 		};
 
 		$scope.logout = function() {
-			AuthService.logout();
+			authenticationService.logout();
 			$scope.currentUser = null;
 			$scope.$emit(AUTH_EVENTS.logoutSuccess);
 			console.log('logout success');
