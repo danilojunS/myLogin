@@ -9,11 +9,7 @@
  */
 angular.module('myLoginApp')
   .controller('MainCtrl', function ($scope, userService) {
-    $scope.user = userService.getUser();
 
-    $scope.$watch(function() {
-		  	return userService.getUser();
-		  }, function(newUser) {
-	      $scope.user = newUser;
-	  });
+    $scope.userService = userService;
+
   });

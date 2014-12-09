@@ -9,30 +9,28 @@
 angular.module('myLoginApp')
   .directive('userMenu', function (AUTH_EVENTS, authenticationService, userService) {
     return {
-      templateUrl: 'views/loginmenu.html',
+      templateUrl: 'views/usermenu.html',
       restrict: 'E',
       link: function postLink(scope) {
-      	  scope.user = userService.getUser();
+      	  scope.userService = userService;
 
       	  scope.logout = function() {
-			authenticationService.logout().then(function () {
 
-				userService.setUser(null);
-				scope.$emit(AUTH_EVENTS.logoutSuccess);
+      			authenticationService.logout().then(function () {
 
-				console.log('logout success');
+      				userService.setUser(null);
+      				scope.$emit(AUTH_EVENTS.logoutSuccess);
 
-			}, function () {
-				console.log('logout error');
-			});
-			
-		  };
+      				console.log('logout success');
 
-      	  scope.$watch(function() {
-      	  	return userService.getUser();
-      	  }, function(newUser) {
-		      scope.user = newUser;
-		  });
+      			}, function () {
+
+      				console.log('logout error');
+
+			      });
+
+		      };
+
       }
     };
   });
