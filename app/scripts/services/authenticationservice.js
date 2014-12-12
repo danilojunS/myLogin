@@ -15,10 +15,10 @@ angular.module('myLoginApp')
     authService.login = function (credentials) {
 
       return $q(function(resolve, reject) {
-          setTimeout(function() {
-            if (credentials.email === 'user' && credentials.password === '123') {
+        setTimeout(function() {
+          if (credentials.email === 'user' && credentials.password === '123') {
 
-          var res = {
+            var res = {
               data : {
                 id: 'dataID',
                 user: {
@@ -31,15 +31,15 @@ angular.module('myLoginApp')
 
             resolve(res);
 
-            } else {
-              reject('It broke');
-            }
-          }, 1000);
-        }).then(function (res) {
-          sessionService.create(res.data.id, res.data.user.id, res.data.user.role);
+          } else {
+            reject('It broke');
+          }
+        }, 1000);
+      }).then(function (res) {
+        sessionService.create(res.data.id, res.data.user.id, res.data.user.role);
 
-          return res.data.user;
-        });
+        return res.data.user;
+      });
 
       // return $http
      //      .post('data/user.php', credentials)
