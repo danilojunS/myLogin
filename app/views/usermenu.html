@@ -8,7 +8,7 @@
     <li><a href="#/signup">Signup</a></li>
   </ul>
   <ul class="nav navbar-nav navbar-right" data-ng-show="userService.getUser()">
-    <li><a href="#/">{{userService.getUser().name}}, {{userService.getUser().role}}</a></li>
+    <li><a href="#/">{{userService.getUserName()}}, {{userService.getUserRole()}}</a></li>
     <li><a href="#/" ng-click="logout()">Signout</a></li>
   </ul>
 </div>

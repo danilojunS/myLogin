@@ -19,6 +19,14 @@ angular.module('myLoginApp')
     	return user;
     };
 
+    userService.getUserName = function(){
+        return user.name;
+    };
+
+    userService.getUserRole = function(){
+        return user.role;
+    };
+
     userService.setUser = function (newUser) {
     	user = newUser;
     };
